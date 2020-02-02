@@ -12,7 +12,7 @@
         </div>
         <div class="row">
             <div class="col s12 m12">
-                <form method="POST">
+                <form method="GET" action="{% url 'customer' customer.id %}">
                     {% csrf_token %}
 
                     <div class="col s12 m8">

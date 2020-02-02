@@ -7,7 +7,9 @@ from .models import Customer, Order, Tag, Product
 from django.forms import inlineformset_factory
 
 
-from .forms import OrderForm, ProductForm, CustomerForm, TagForm
+from .forms import OrderForm, ProductForm, CustomerForm, TagForm, FilterForm
+
+from .filters import OrderFilter
 
 
 def home(request):
@@ -41,9 +43,14 @@ def customers(request):
 def customer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     orders = customer.order_set.all()
+
+    orderFilter = OrderFilter(request.GET, queryset=orders)
+    orders = orderFilter.qs
+
     data = {
         'customer': customer,
-        'orders': orders
+        'orders': orders,
+        'filter': orderFilter
     }
     return render(request, 'accounts/customer.html', data)
 
@@ -55,8 +62,13 @@ def addCustomer(request):
             'form': form,
             'action_btn_name': 'Add Customer'
         }
-
         return render(request, 'accounts/customer_form.html', data)
+
+    if request.method=="POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customers')
 
 
 def updateCustomer(request, customer_id):
@@ -106,6 +118,7 @@ def addOrder(request, customer_id):
             # 'form': order_form,
             'formset': formset,
             'action_btn_name': 'Place Order(s)',
+            'customer': customer,
         }
         return render(request, 'accounts/order_form.html', data)
 
@@ -210,6 +223,7 @@ def deleteProduct(request, product_id):
         return redirect('products')
 
     return redirect(request.META('HTTP_REFERER'))
+
 
 
 def register(request):

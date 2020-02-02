@@ -31,3 +31,9 @@ class TagForm(ModelForm):
     class Meta:
         model = Tag
         fields = ['name']
+
+
+class FilterForm(ModelForm):
+    class Meta:
+        model = Product
+        fields=['name','price','category','description','tags']

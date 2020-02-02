@@ -70,14 +70,13 @@
                 <div class="row" style="margin-bottom: 0">
                     <form class="col s12">
                         <div class="row" style="margin-bottom: 0">
+
+                            {% for field in filter.form.visible_fields %}
                             <div class="input-field col s6 m3">
-                                <input placeholder="First Name" id="first_name" type="text" class="validate">
-                                <label for="first_name">First Name</label>
+                                {{ field }}
+                                <label for="first_name">{{field.label_tag}}</label>
                             </div>
-                            <div class="input-field col s6 m3">
-                                <input id="last_name" type="text" class="validate">
-                                <label for="last_name">Last Name</label>
-                            </div>
+                            {% endfor %}
 
                             <div class="col s12 m3">
                                 <button type="submit" class="btn waves-effect blue lighten-2 z-depth-0">
