@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,25 @@
     <title>CRM_Django {% block title %}{% endblock %}</title>
 
     <!-- Styles -->
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- materialize -->
     <link rel="stylesheet" href="{% static 'libs/materialize/css/materialize.min.css'%}">
+    <!--App Styles-->
     <link rel="stylesheet" href="{% static 'css/app.css'%}">
 </head>
+
 <body>
 
+    {% include 'partials/_navbar.html' %}
 
-{% block content %}
-{% endblock %}
-    
+    {% block content %}
+    {% endblock %}
+
+    {% include 'partials/_footer.html' %}
+
     <script src="{% static 'libs/materialize/js/materialize.min.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
 </body>
+
 </html>

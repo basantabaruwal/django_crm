@@ -1,0 +1,54 @@
+<nav class="nav-wrapper">
+    <div class="container">
+        <a href="{% url 'home' %}" class="brand-logo">
+            App Name
+        </a>
+        <a href="#sidenav" class="sidenav-trigger">
+            <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="{% url 'dashboard' %}" class="waves-effect waves-dark">Dashboard</a></li>
+            <li><a href="{% url 'products' %}" class="waves-effect waves-dark">Products</a></li>
+            <li><a href="{% url 'customer' %}" class="waves-effect waves-dark">Customers</a></li>
+            <li><a href="#!" class="dropdown-trigger waves-effect waves-dark" data-target="admin-menu">Admin</a></li>
+        </ul>
+
+        <!-- <ul id="sidenav" class="sidenav sidenav-fixed"> -->
+        <ul id="sidenav" class="sidenav">
+            <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li class="bold">
+                    <a href="#!" class="collapsible-header waves-effect waves-teal">
+                    <i class="material-icons">folder</i>
+                    Dashboard
+                    </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="#!">
+                            <i class="material-icons">users</i>
+                            Profile
+                            </a></li>
+                            <li><a href="#!">
+                            <i class="material-icons">settings</i>
+                            Settings
+                            </a></li>
+                            <li><a href="#!">
+                            <i class="material-icons">power-off</i>
+                            Logout
+                            </a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            </li>
+            <li><a href="{% url 'products' %}" class="indigo-text">Products</a></li>
+            <li><a href="{% url 'customer' %}" class="indigo-text">Customers</a></li>
+        </ul>
+        <ul id="admin-menu" class="dropdown-content">
+            <li><a href="{% url 'products' %}">Profile</a></li>
+            <li><a href="{% url 'dashboard' %}">Settings</a></li>
+            <li class="divider" tabindex="-1"></li>
+            <li><a href="{% url 'customer' %}">Logout</a></li>
+        </ul>
+    </div>
+</nav>

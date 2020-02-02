@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<div class="container">
+
+    <!--Stats-->
+    <div class="row">
+        <div class="col s6 m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Total Orders</span>
+                    <div class="divider"></div>
+                    <h3>150</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col s6 m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Orders Delivered</span>
+                    <div class="divider"></div>
+                    <h3>146</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m4">
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Orders Pending</span>
+                    <div class="divider"></div>
+                    <h3>4</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Details Tables-->
+    <div class="row">
+        <div class="col s12 m6">
+            <h4>Customers</h4>
+            <div class="divider"></div>
+            <a href="#!" class="btn right">
+                <i class="material-icons left">add</i>
+                Add Customer
+            </a>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Orders</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--table data-->
+                    <tr>
+                        <td>Ram Wagle</td>
+                        <td>25</td>
+                    </tr>
+                    <!--table data-->
+                    <tr>
+                        <td>Ram Wagle</td>
+                        <td>25</td>
+                    </tr>
+                    <!--table data-->
+                    <tr>
+                        <td>Ram Wagle</td>
+                        <td>25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12 m6">
+            <h4>Last 5 Orders</h4>
+            <div class="divider"></div>
+            <a href="#!" class="btn right block">
+                <i class="material-icons left">add</i>
+                Add Order
+            </a>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Date Ordered</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--table data-->
+                    <tr>
+                        <td>MoMo</td>
+                        <td>2020-02-02</td>
+                        <td>Ready</td>
+                        <td>
+                            <i class="material-icons orange-text">edit</i>
+                        </td>
+                        <td>
+                            <i class="material-icons red-text">delete</i>
+                        </td>
+                    </tr>
+                    <!--table data-->
+                    <tr>
+                        <td>MoMo</td>
+                        <td>2020-02-02</td>
+                        <td>Ready</td>
+                        <td>
+                            <i class="material-icons orange-text">edit</i>
+                        </td>
+                        <td>
+                            <i class="material-icons red-text">delete</i>
+                        </td>
+                    </tr>
+                    <!--table data-->
+                    <tr>
+                        <td>MoMo</td>
+                        <td>2020-02-02</td>
+                        <td>Ready</td>
+                        <td>
+                            <i class="material-icons orange-text">edit</i>
+                        </td>
+                        <td>
+                            <i class="material-icons red-text">delete</i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
