@@ -142,11 +142,13 @@ def addOrder(request, customer_id):
 
 def updateOrder(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
+    customer = order.customer
     if request.method == 'GET':
         order_form = OrderForm(instance=order)
         data = {
             'form': order_form,
             'action_btn_name': 'Update Order',
+            # 'customer': customer,
         }
         return render(request, 'accounts/order_form.html', data)
 

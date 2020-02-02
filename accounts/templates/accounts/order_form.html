@@ -15,35 +15,37 @@
                 <form method="GET" action="{% url 'customer' customer.id %}">
                     {% csrf_token %}
 
-                    <div class="col s12 m8">
+                    <div class="col s12 m10">
                         <div id="itemsContainer">
-
-                            <!--
-                        {{ form }}
-                        -->
                             {{ formset.management_form }}
                             {% for form in formset %}
                             <div class="section">
+                                {% for hidden in form.hidden_fields %}
+                                    {{ hidden }}
+                                {% endfor %}
                                 <div class="row">
+                                    {% for field in form.visible_fields %}
+                                    <div class="input-field col s6 m3">
+                                        {{ field.errors }}
+                                        {{ field }}
+                                        <label for="first_name">{{field.label_tag}}</label>
+                                    </div>
+                                    {% endfor %}
+                                    <button class="btn btn-floating waves-effect waves-light indigo right"
+                                        id="add-item-markup" onClick="addItemMarkup(this)">
+                                        <i class="material-icons left">add</i>
+                                        Add New Item
+                                    </button>
                                 </div>
-                                {{ form }}
-                                <button class="btn btn-floating waves-effect waves-light indigo right" id="add-item-markup"
-                                    onClick="addItemMarkup(this)">
-                                    <i class="material-icons left">add</i>
-                                    Add New Item
-                                </button>
-                            </div>
-                            <!--
-                        <hr class="divider">
-                        -->
-                            {% endfor %}
 
+                            </div>
+                            {% endfor %}
                         </div>
-                        <button type="submit" class="btn waves-effect blue lighten-2 z-depth-0">
-                            <i class="material-icons left">add</i>
-                            {{action_btn_name}}
-                        </button>
                     </div>
+                    <button type="submit" class="btn waves-effect blue lighten-2 z-depth-0">
+                        <i class="material-icons left">add</i>
+                        {{action_btn_name}}
+                    </button>
 
                 </form>
             </div>
