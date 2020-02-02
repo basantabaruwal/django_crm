@@ -15,6 +15,12 @@ from .filters import OrderFilter
 
 
 def home(request):
+    # print("**********USER: ", request.user)
+    if not request.user.is_authenticated:
+        # user not authorized to view this page
+        # return redirect(request.META['HTTP_REFERER'])
+        return redirect('login')
+    # otherwise continue
     orders = Order.objects.all()
     customers = Customer.objects.all()
     orders_recent = Order.objects.order_by('-date_created')[:5]
@@ -231,6 +237,13 @@ def deleteProduct(request, product_id):
 
 
 def register(request):
+    # print("**********USER: ", request.user)
+    if request.user.is_authenticated:
+        # user not authorized to view this page
+        # return redirect(request.META['HTTP_REFERER'])
+        return redirect('dashboard')
+
+    # otherwise continue
     if request.method=="GET":
         return render(request, 'accounts/register.html')
 
@@ -265,6 +278,12 @@ def register(request):
 
 
 def login(request):
+    # print("**********USER: ", request.user)
+    if request.user.is_authenticated:
+        # user not authorized to view this page
+        # return redirect(request.META['HTTP_REFERER'])
+        return redirect('dashboard')
+    # otherwise continue
     if request.method == 'GET':
         return render(request, 'accounts/login.html')
     if request.method=="POST":
@@ -283,3 +302,18 @@ def login(request):
             # user exists, proceed to login
             auth.login(request, user)
             return redirect('dashboard')
+
+
+def logout(request):
+    # print("**********USER: ", request.user)
+    if not request.user.is_authenticated:
+        # user not authorized to view this page
+        # return redirect(request.META['HTTP_REFERER'])
+        return redirect('login')
+    # otherwise continue
+    if request.method=="GET":
+        return redirect(request.META['HTTP_REFERER'])
+
+    if request.user.is_authenticated and request.method=="POST":
+        auth.logout(request)
+        return redirect('login')
