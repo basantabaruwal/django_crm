@@ -7,4 +7,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var collapsibles = document.querySelectorAll('.collapsible');
     M.Collapsible.init(collapsibles);
+
+    // for rendering the select tags
+    var selectElms = document.querySelectorAll('select');
+    M.FormSelect.init(selectElms);
 });

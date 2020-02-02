@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12">
+                <form action="{% url 'add_order' %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="col s12 m8">
+                        {{ order_form }}
+                        <button type="submit" class="btn waves-effect blue lighten-2 z-depth-0">
+                            <i class="material-icons left">add</i>
+                            Add order
+                        </button>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock%}

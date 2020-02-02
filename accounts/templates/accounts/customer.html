@@ -23,11 +23,11 @@
                     <hr class="divider">
                     <div class="row">
                         <div class="col s3 m3">Email:</div>
-                        <div class="col s8 m8">baruwalbasanta@gmail.com</div>
+                        <div class="col s8 m8">{{ customer.email }}</div>
                     </div>
                     <div class="row">
                         <div class="col s3 m3">Phone</div>
-                        <div class="col s8 m8">(+977) 9846333597</div>
+                        <div class="col s8 m8">{{ customer.phone }}</div>
                     </div>
                 </div>
             </div>
@@ -37,12 +37,13 @@
                 <div class="card-content">
                     <span class="card-title">Total Orders</span>
                     <hr class="divider">
-                    <h3>12</h3>
+                    <h3>{{customer.number_of_orders}}</h3>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Search -->
     <div class="row">
         <div class="col s12 m12">
             <form action="#!">
@@ -75,6 +76,7 @@
 
     <div class="row">
         <div class="col s12 m12">
+            <h4>Orders</h4>
             <table class="striped">
                 <thead>
                     <tr>
@@ -85,14 +87,26 @@
                         <th>Update</th>
                         <th>Remove</th>
                 <tbody>
+                    {% for order in orders%}
                     <tr>
-                        <td>Tuna Fish</td>
-                        <td>Food</td>
-                        <td>2020-12-05</td>
-                        <td>Delivered</td>
-                        <td>Update</td>
-                        <td>Delete</td>
+                        <td>{{order.product.name}}</td>
+                        <td>{{order.product.category}}</td>
+                        <td>{{order.date_created}}</td>
+                        <td>{{order.status}}</td>
+                        <td>
+                            <i class="material-icons orange-text">edit</i>
+                        </td>
+                        <td>
+                            <i class="material-icons red-text">delete</i>
+                        </td>
                     </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            <p>This customer has not placed any order yet</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
                 </tr>
                 </thead>

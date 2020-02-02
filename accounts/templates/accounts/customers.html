@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col s12 m12">
+            <h4>Customers</h4>
+            <div class="divider"></div>
+            <a href="#!" class="btn right">
+                <i class="material-icons left">add</i>
+                Add Customer
+            </a>
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Orders</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--table data-->
+                    {% for customer in customers %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'customer' customer.id%}">
+                                {{customer.name}}
+                            </a>
+                        </td>
+                        <td>{{customer.address}}</td>
+                        <td>{{customer.email}}</td>
+                        <td>{{customer.phone}}</td>
+                        <td>{{customer.number_of_orders}}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>No Customers found. Please add.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

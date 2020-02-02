@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, Product, Order
+from .models import Customer, Product, Order, Tag
 
 # Register your models here.
 
@@ -20,8 +20,10 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('status', 'date_created')
+    list_display = ('id', 'status', 'date_created')
+    list_filter = ('status',)
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Order, OrderAdmin)
+admin.site.register(Tag)

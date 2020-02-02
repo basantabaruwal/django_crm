@@ -9,7 +9,7 @@
         <ul class="right hide-on-med-and-down">
             <li><a href="{% url 'dashboard' %}" class="waves-effect waves-dark">Dashboard</a></li>
             <li><a href="{% url 'products' %}" class="waves-effect waves-dark">Products</a></li>
-            <li><a href="{% url 'customer' %}" class="waves-effect waves-dark">Customers</a></li>
+            <li><a href="{% url 'customers' %}" class="waves-effect waves-dark">Customers</a></li>
             <li><a href="#!" class="dropdown-trigger waves-effect waves-dark" data-target="admin-menu">Admin</a></li>
         </ul>
 
@@ -42,13 +42,13 @@
             </ul>
             </li>
             <li><a href="{% url 'products' %}" class="indigo-text">Products</a></li>
-            <li><a href="{% url 'customer' %}" class="indigo-text">Customers</a></li>
+            <li><a href="{% url 'customers' %}" class="indigo-text">Customers</a></li>
         </ul>
         <ul id="admin-menu" class="dropdown-content">
             <li><a href="{% url 'products' %}">Profile</a></li>
             <li><a href="{% url 'dashboard' %}">Settings</a></li>
             <li class="divider" tabindex="-1"></li>
-            <li><a href="{% url 'customer' %}">Logout</a></li>
+            <li><a href="{% url 'customers' %}">Logout</a></li>
         </ul>
     </div>
 </nav>

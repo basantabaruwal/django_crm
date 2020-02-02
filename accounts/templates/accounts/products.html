@@ -2,5 +2,59 @@
 
 
 {% block content %}
-<h1>Products</h1>
+<div class="container">
+
+    <div class="col s12 m12">
+        <h4>Products</h4>
+        <div class="divider"></div>
+        <a href="#!" class="btn right block">
+            <i class="material-icons left">add</i>
+            Add Product
+        </a>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Update</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                <!--table data-->
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.category}}</td>
+                    <td>
+                        <i class="material-icons orange-text">edit</i>
+                    </td>
+                    <td>
+                        <i class="material-icons red-text">delete</i>
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr></tr>
+                <tr>
+                No products available.Please click <a href="#!" class="btn btn-sm waves-effect">
+                <i class="material-icons left">add</i>
+                Add Product
+                </a>
+                to add a new product.
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
 {% endblock %}
