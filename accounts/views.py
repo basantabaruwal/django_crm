@@ -3,7 +3,9 @@ from django.http import HttpResponse
 
 from .models import Customer, Order, Tag, Product
 
-from django.views.generic import CreateView
+# from django.views.generic import CreateView
+from django.forms import inlineformset_factory
+
 
 from .forms import OrderForm, ProductForm, CustomerForm, TagForm
 
@@ -45,6 +47,7 @@ def customer(request, customer_id):
     }
     return render(request, 'accounts/customer.html', data)
 
+
 def addCustomer(request):
     if request.method == "GET":
         form = CustomerForm()
@@ -67,7 +70,7 @@ def updateCustomer(request, customer_id):
 
         return render(request, 'accounts/customer_form.html', data)
 
-    if request.method=="POST":
+    if request.method == "POST":
         form = CustomerForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()
@@ -76,25 +79,41 @@ def updateCustomer(request, customer_id):
 
 def deleteCustomer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
-    if request.method=="POST":
+    if request.method == "POST":
         customer.delete()
 
         return redirect('customers')
 
     return redirect(request.META['HTTP_REFERER'])
 
-def addOrder(request):
+
+def addOrder(request, customer_id):
+    # print("******************Customer ID: ", customer_id)
+
+    OrderFormSet = inlineformset_factory(
+        Customer, Order, fields=('product', 'status',), extra=1)
+    customer = get_object_or_404(Customer, pk=customer_id)
     if request.method == 'GET':
-        order_form = OrderForm()
+        # order_form = OrderForm(
+        #     initial = {
+        #         'customer': customer
+        #     }
+        # )
+
+        formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
+
         data = {
-            'order_form': order_form,
-            'action_btn_name': 'Add Order',
+            # 'form': order_form,
+            'formset': formset,
+            'action_btn_name': 'Place Order(s)',
         }
         return render(request, 'accounts/order_form.html', data)
 
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
+        print("***************REQUEST: ", request.method)
+        # form = OrderForm(request.POST)
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
             # customer = form.cleaned_data['customer']
             # product = form.cleaned_data['product']
             # status = form.cleaned_data['status']
@@ -102,8 +121,10 @@ def addOrder(request):
             # # create a new order
             # order = Order(customer=customer, product=product, status=status)
             # order.save()
-            form.save()
+            formset.save()
             return redirect('dashboard')
+
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def updateOrder(request, order_id):
@@ -124,14 +145,16 @@ def updateOrder(request, order_id):
 
         return render(request, 'accounts/order_form.html')
 
+
 def deleteOrder(request, order_id):
-    print("***********REQUEST METHOD************** ",request.method)
-    if request.method=='POST':
+    print("***********REQUEST METHOD************** ", request.method)
+    if request.method == 'POST':
         order = get_object_or_404(Order, pk=order_id)
         order.delete()
         return redirect(request.META['HTTP_REFERER'])
-    
+
     return redirect('customers')
+
 
 def products(request):
     products = Product.objects.all()
@@ -158,7 +181,7 @@ def addProduct(request):
             return redirect('products')
 
     return redirect(request.META['HTTP_REFERER'])
-        
+
 
 def updateProduct(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
@@ -178,17 +201,15 @@ def updateProduct(request, product_id):
             return redirect('products')
 
     return redirect(request.META['HTTP_REFERER'])
-        
-    
+
+
 def deleteProduct(request, product_id):
-    if request.method=='POST':
+    if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
         product.delete()
         return redirect('products')
 
     return redirect(request.META('HTTP_REFERER'))
-
-
 
 
 def register(request):

@@ -51,12 +51,20 @@
     <!--Details Tables-->
     <div class="row">
         <div class="col s12 m6">
-            <h4>Customers</h4>
+            <div class="row valign-wrapper">
+                <div class="col s6 m6">
+                    <h4>Customers</h4>
+                </div>
+                <div class="col s6 m6">
+                    <a href="{% url 'add_customer' %}" class="btn right">
+                        <i class="material-icons left">add</i>
+                        Add Customer
+                    </a>
+                </div>
+            </div>
+
             <div class="divider"></div>
-            <a href="#!" class="btn right">
-                <i class="material-icons left">add</i>
-                Add Customer
-            </a>
+
             <table class="striped">
                 <thead>
                     <tr>
@@ -94,10 +102,12 @@
         <div class="col s12 m6">
             <h4>Last 5 Orders</h4>
             <div class="divider"></div>
+            <!--
             <a href="{% url 'add_order' %}" class="btn right block">
                 <i class="material-icons left">add</i>
                 Add Order
             </a>
+            -->
             <table class="striped">
                 <thead>
                     <tr>
@@ -122,7 +132,7 @@
                         </td>
                         <td>
                             <form action="{% url 'delete_order' order.id %}" method="POST">
-                            {% csrf_token %}
+                                {% csrf_token %}
                                 <button type="submit" class="btn">
                                     <i class="material-icons red-text">delete</i>
                                 </button>
