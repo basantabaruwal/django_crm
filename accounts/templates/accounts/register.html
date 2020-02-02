@@ -1,5 +1,69 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Register View</h1>
+
+<div class="container valign-wrapper" style="height: 82vh">
+
+    <div class="row">
+
+        <div class="col s12">
+            <div class="row">
+                <form class="col s12" method="POST" action="{% url 'register' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="first_name" name="first_name" type="text" class="validate" required>
+                            <label for="first_name" disabled>First Name</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="last_name" name="last_name" type="text" class="validate" required>
+                            <label for="last_name" disabled>Last Name</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="username" name="username" type="text" class="validate" required>
+                            <label for="username" disabled>Username</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            <input id="email" type="email" name="email" class="validate" required>
+                            <label for="email" disabled>Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password" type="password" name="password" class="validate" required>
+                            <label for="password" disabled>Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="password_confirm" name="password_confirm" type="password" class="validate"
+                                required>
+                            <label for="password_confirm" disabled>Confirm Password</label>
+                        </div>
+                    </div>
+                    <div class="card-action">
+                        <div class="row">
+                            <button type="submit" class="btn waves-effect waves-light indigo col s12 m12">
+                                Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col s12 m6">
+
+    </div>
+</div>
+
 {% endblock %}

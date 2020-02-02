@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.contrib.auth.models import User
+from django.contrib import auth
 
 from .models import Customer, Order, Tag, Product
 
@@ -229,8 +231,55 @@ def deleteProduct(request, product_id):
 
 
 def register(request):
-    return render(request, 'accounts/register.html')
+    if request.method=="GET":
+        return render(request, 'accounts/register.html')
+
+    if request.method=="POST": 
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        password_confirm = request.POST['password_confirm']
+        data = {
+            'values': request.POST,
+        }
+        #check if the username is already taken
+        if User.objects.filter(username=username).exists():
+            # username is already taken
+            return render(request, 'accounts/register.html', data)
+        elif User.objects.filter(email=email).exists():
+            # username is available
+            # check for duplicate email
+            # but the email is duplicate
+            return render(request, 'accounts/register.html', data)
+        elif password != password_confirm:
+            # passwords do not match
+            return render(request, 'accounts/register.html', data)
+        else:
+            # everything looks good
+            # create the user
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
+
+            return redirect('login')
 
 
 def login(request):
-    return render(request, 'accounts/login.html')
+    if request.method == 'GET':
+        return render(request, 'accounts/login.html')
+    if request.method=="POST":
+        # check if the user exists
+        username = request.POST['username']
+        password = request.POST['password']
+        print("username {}  and password {}.".format(username, password))
+        data = {
+            'values': request.POST,
+        }
+        user = auth.authenticate(username=username, password=password)
+        if user is None:
+            # Invalid Credentials
+            return render(request, 'accounts/login.html', data)
+        else:
+            # user exists, proceed to login
+            auth.login(request, user)
+            return redirect('dashboard')
