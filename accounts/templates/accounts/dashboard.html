@@ -116,10 +116,17 @@
                         <td>{{ order.date_created}}</td>
                         <td>{{ order.status}}</td>
                         <td>
-                            <i class="material-icons orange-text">edit</i>
+                            <a href="{% url 'update_order' order.id %}">
+                                <i class="material-icons orange-text">edit</i>
+                            </a>
                         </td>
                         <td>
-                            <i class="material-icons red-text">delete</i>
+                            <form action="{% url 'delete_order' order.id %}" method="POST">
+                            {% csrf_token %}
+                                <button type="submit" class="btn">
+                                    <i class="material-icons red-text">delete</i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% empty %}

@@ -11,8 +11,17 @@
                 <div class="card-content">
                     <span class="card-title">Customer</span>
                     <hr class="divider">
-                    <a href="#!" class="btn waves-effect">Update</a>
-                    <a href="#!" class="btn waves-effect">Delete</a>
+                    <a href="{% url 'update_customer' customer.id %}" class="btn waves-effect">
+                        <i class="material-icons orange-text left">edit</i>
+                        Update
+                    </a>
+                    <form action="{% url 'delete_customer' customer.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn waves-effect">
+                            <i class="material-icons red-text left">delete</i>
+                            Delete
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -94,10 +103,17 @@
                         <td>{{order.date_created}}</td>
                         <td>{{order.status}}</td>
                         <td>
-                            <i class="material-icons orange-text">edit</i>
+                            <a href="{% url 'update_order' order.id %}">
+                                <i class="material-icons orange-text">edit</i>
+                            </a>
                         </td>
                         <td>
-                            <i class="material-icons red-text">delete</i>
+                            <form action="{% url 'delete_order' order.id %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="btn">
+                                    <i class="material-icons red-text">delete</i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% empty %}

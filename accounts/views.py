@@ -5,7 +5,7 @@ from .models import Customer, Order, Tag, Product
 
 from django.views.generic import CreateView
 
-from .forms import OrderForm
+from .forms import OrderForm, ProductForm, CustomerForm, TagForm
 
 
 def home(request):
@@ -45,6 +45,93 @@ def customer(request, customer_id):
     }
     return render(request, 'accounts/customer.html', data)
 
+def addCustomer(request):
+    if request.method == "GET":
+        form = CustomerForm()
+        data = {
+            'form': form,
+            'action_btn_name': 'Add Customer'
+        }
+
+        return render(request, 'accounts/customer_form.html', data)
+
+
+def updateCustomer(request, customer_id):
+    customer = get_object_or_404(Customer, pk=customer_id)
+    if request.method == "GET":
+        form = CustomerForm(instance=customer)
+        data = {
+            'form': form,
+            'action_btn_name': 'Add Customer'
+        }
+
+        return render(request, 'accounts/customer_form.html', data)
+
+    if request.method=="POST":
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('customers')
+
+
+def deleteCustomer(request, customer_id):
+    customer = get_object_or_404(Customer, pk=customer_id)
+    if request.method=="POST":
+        customer.delete()
+
+        return redirect('customers')
+
+    return redirect(request.META['HTTP_REFERER'])
+
+def addOrder(request):
+    if request.method == 'GET':
+        order_form = OrderForm()
+        data = {
+            'order_form': order_form,
+            'action_btn_name': 'Add Order',
+        }
+        return render(request, 'accounts/order_form.html', data)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            # customer = form.cleaned_data['customer']
+            # product = form.cleaned_data['product']
+            # status = form.cleaned_data['status']
+            # # print(customer, product, status)
+            # # create a new order
+            # order = Order(customer=customer, product=product, status=status)
+            # order.save()
+            form.save()
+            return redirect('dashboard')
+
+
+def updateOrder(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    if request.method == 'GET':
+        order_form = OrderForm(instance=order)
+        data = {
+            'form': order_form,
+            'action_btn_name': 'Update Order',
+        }
+        return render(request, 'accounts/order_form.html', data)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+        return render(request, 'accounts/order_form.html')
+
+def deleteOrder(request, order_id):
+    print("***********REQUEST METHOD************** ",request.method)
+    if request.method=='POST':
+        order = get_object_or_404(Order, pk=order_id)
+        order.delete()
+        return redirect(request.META['HTTP_REFERER'])
+    
+    return redirect('customers')
 
 def products(request):
     products = Product.objects.all()
@@ -54,32 +141,59 @@ def products(request):
     return render(request, 'accounts/products.html', data)
 
 
+def addProduct(request):
+    if request.method == 'GET':
+        form = ProductForm()
+        data = {
+            'form': form,
+            'action_btn_name': 'Add Product',
+        }
+
+        return render(request, 'accounts/product_form.html', data)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('products')
+
+    return redirect(request.META['HTTP_REFERER'])
+        
+
+def updateProduct(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    if request.method == 'GET':
+        form = ProductForm(instance=product)
+        data = {
+            'form': form,
+            'action_btn_name': 'Update Product',
+        }
+
+        return render(request, 'accounts/product_form.html', data)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('products')
+
+    return redirect(request.META['HTTP_REFERER'])
+        
+    
+def deleteProduct(request, product_id):
+    if request.method=='POST':
+        product = get_object_or_404(Product, pk=product_id)
+        product.delete()
+        return redirect('products')
+
+    return redirect(request.META('HTTP_REFERER'))
+
+
+
+
 def register(request):
     return render(request, 'accounts/register.html')
 
 
 def login(request):
     return render(request, 'accounts/login.html')
-
-
-def OrderCreateView(request):
-    if request.method == 'GET':
-        order_form = OrderForm()
-        data = {
-            'order_form': order_form
-        }
-        return render(request, 'accounts/order_form.html', data)
-
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            customer = form.cleaned_data['customer']
-            product = form.cleaned_data['product']
-            status = form.cleaned_data['status']
-            # print(customer, product, status)
-            # create a new order
-            order = Order(customer=customer, product=product, status=status)
-            order.save()
-            return redirect('dashboard')
-
-        return render(request, 'accounts/order_form.html')

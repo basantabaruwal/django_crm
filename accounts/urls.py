@@ -6,8 +6,19 @@ urlpatterns = [
     path('login', views.login, name="login"),
     path('', views.home, name="home"),
     path('dashboard', views.home, name="dashboard"),
-    path('products', views.products, name="products"),
+    # CUSTOMERS
     path('customers', views.customers, name="customers"),
     path('customers/<int:customer_id>', views.customer, name='customer'),
-    path('orders/add', views.OrderCreateView, name='add_order'),
+    path('customers/add', views.addCustomer, name='add_customer'),
+    path('customers/<int:customer_id>/update', views.updateCustomer, name='update_customer'),
+    path('customers/<int:customer_id>/delete', views.deleteCustomer, name='delete_customer'),
+    # ORDERS
+    path('orders/add', views.addOrder, name='add_order'),
+    path('orders/<int:order_id>/update', views.updateOrder, name='update_order'),
+    path('orders/<int:order_id>/delete', views.deleteOrder, name='delete_order'),
+    # PRODUCTS
+    path('products', views.products, name="products"),
+    path('products/add', views.addProduct, name="add_product"),
+    path('products/<int:product_id>/update', views.updateProduct, name='update_product'),
+    path('products/<int:product_id>/delete', views.deleteProduct, name='delete_product'),
 ]
