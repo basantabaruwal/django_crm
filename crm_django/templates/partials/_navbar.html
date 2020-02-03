@@ -13,7 +13,9 @@
             <li><a href="{% url 'products' %}" class="waves-effect waves-dark">Products</a></li>
             <li><a href="{% url 'customers' %}" class="waves-effect waves-dark">Customers</a></li>
             {% if user.is_authenticated %}
-            <li><a href="#!" class="dropdown-trigger waves-effect waves-dark" data-target="admin-menu">Admin</a></li>
+            <li><a href="#!" class="dropdown-trigger waves-effect waves-dark" data-target="admin-menu">{{ user.username }}
+            <i class="material-icons right">arrow_drop_down</i>
+            </a></li>
             {% else %}
             <li><a href="{% url 'login' %}" class="waves-effect waves-dark">Login</a></li>
             <li><a href="{% url 'register' %}" class="waves-effect waves-dark">Register</a></li>

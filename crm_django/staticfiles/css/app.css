@@ -5,3 +5,60 @@
     display: table;
     clear: both;
 }
+
+.alert {
+    position: relative;
+    padding: .5rem 1rem;
+    display: flex;
+    align-items: center;
+    margin: 1rem;
+    box-shadow: 0 .3rem .5rem 0 rgba(0, 0, 0, .15);
+}
+
+.alert__close,
+.alert__close:link,
+.alert__close:visited {
+    outline: none;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    order: 1;
+    cursor: pointer;
+}
+
+.alert__content {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    flex: 1 1 90%;
+}
+
+.alert__tag {
+    font-weight: bold;
+    /* flex: 0 0 4rem; */
+    font-size: 1.2rem;
+    margin-right: 1rem;
+    color: #333;
+}
+
+.alert__message {
+    font-size: 1rem;
+    color: #333;
+}
+
+.alert-info {
+    background: skyblue;
+    font-size: 1.0rem;
+}
+
+.alert-success {
+    background: lightgreen;
+}
+
+.alert-warning {
+    background: lightsalmon;
+}
+
+.alert-error {
+    background: pink;
+}
