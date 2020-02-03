@@ -318,8 +318,12 @@ def login(request):
         else:
             # user exists, proceed to login
             auth.login(request, user)
-            messages.success(request, "Welcome to dashboard")
-            return redirect('dashboard')
+            messages.success(request, "Login Successful")
+            if 'next' in request.POST: # include a input hidden field in login form and give value={{request.GET.next}}
+                redirect_url = request.POST['next']
+            else:
+                redirect_url = 'customers'
+            return redirect(redirect_url)
 
 
 @login_required(login_url="login")
