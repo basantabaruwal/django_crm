@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from crm_django.decorators.decorators import not_for_authenticated_user
+from crm_django.decorators.decorators import not_for_authenticated_user, allowed_groups
 from django.contrib import messages
+# from django.contrib.generic.views import CreateView
 
 from .models import Customer, Order, Tag, Product
 
@@ -18,6 +19,7 @@ from .filters import OrderFilter
 
 
 @login_required(login_url='login')
+@allowed_groups(allowed_groups=['admin', 'manager'])
 def home(request):
     # # print("**********USER: ", request.user)
     # if not request.user.is_authenticated:
@@ -43,6 +45,7 @@ def home(request):
     return render(request, 'accounts/dashboard.html', data)
 
 
+@allowed_groups(allowed_groups=['admin', 'manager'])
 def customers(request):
     customers = Customer.objects.order_by('-date_created')
     data = {
@@ -52,6 +55,7 @@ def customers(request):
     return render(request, 'accounts/customers.html', data)
 
 
+@allowed_groups(allowed_groups=['admin', 'manager', 'customer'])
 def customer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     orders = customer.order_set.all()
@@ -67,6 +71,7 @@ def customer(request, customer_id):
     return render(request, 'accounts/customer.html', data)
 
 
+@allowed_groups(allowed_groups=['admin'])
 def addCustomer(request):
     if request.method == "GET":
         form = CustomerForm()
@@ -85,6 +90,7 @@ def addCustomer(request):
             return redirect('customers')
 
 
+@allowed_groups(allowed_groups=['admin'])
 def updateCustomer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     if request.method == "GET":
@@ -104,6 +110,7 @@ def updateCustomer(request, customer_id):
             return redirect('customers')
 
 
+@allowed_groups(allowed_groups=['admin'])
 def deleteCustomer(request, customer_id):
     customer = get_object_or_404(Customer, pk=customer_id)
     if request.method == "POST":
@@ -115,6 +122,7 @@ def deleteCustomer(request, customer_id):
     return redirect(request.META['HTTP_REFERER'])
 
 
+@allowed_groups(allowed_groups=['admin', 'manager', 'customer'])
 def addOrder(request, customer_id):
     # print("******************Customer ID: ", customer_id)
 
@@ -157,6 +165,7 @@ def addOrder(request, customer_id):
     return redirect(request.META['HTTP_REFERER'])
 
 
+@allowed_groups(allowed_groups=['admin', 'manager', 'customer'])
 def updateOrder(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
     customer = order.customer
@@ -179,6 +188,7 @@ def updateOrder(request, order_id):
         return render(request, 'accounts/order_form.html')
 
 
+@allowed_groups(allowed_groups=['admin', 'manager', 'customer'])
 def deleteOrder(request, order_id):
     print("***********REQUEST METHOD************** ", request.method)
     if request.method == 'POST':
@@ -191,6 +201,7 @@ def deleteOrder(request, order_id):
     return redirect('customers')
 
 
+@allowed_groups(allowed_groups=['admin', 'manager', 'customer'])
 def products(request):
     products = Product.objects.all()
     data = {
@@ -199,6 +210,7 @@ def products(request):
     return render(request, 'accounts/products.html', data)
 
 
+@allowed_groups(allowed_groups=['admin', 'manager'])
 def addProduct(request):
     if request.method == 'GET':
         form = ProductForm()
@@ -220,6 +232,7 @@ def addProduct(request):
     return redirect(request.META['HTTP_REFERER'])
 
 
+@allowed_groups(allowed_groups=['admin', 'manager'])
 def updateProduct(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     if request.method == 'GET':
@@ -241,6 +254,7 @@ def updateProduct(request, product_id):
     return redirect(request.META['HTTP_REFERER'])
 
 
+@allowed_groups(allowed_groups=['admin', 'manager'])
 def deleteProduct(request, product_id):
     if request.method == 'POST':
         product = get_object_or_404(Product, pk=product_id)
@@ -253,14 +267,15 @@ def deleteProduct(request, product_id):
 
 
 
+@not_for_authenticated_user
 def register(request):
-    # print("**********USER: ", request.user)
-    if request.user.is_authenticated:
-        # user not authorized to view this page
-        # return redirect(request.META['HTTP_REFERER'])
-        return redirect('dashboard')
+    # # print("**********USER: ", request.user)
+    # if request.user.is_authenticated:
+    #     # user not authorized to view this page
+    #     # return redirect(request.META['HTTP_REFERER'])
+    #     return redirect('dashboard')
 
-    # otherwise continue
+    # # otherwise continue
     if request.method=="GET":
         return render(request, 'accounts/register.html')
 
@@ -294,7 +309,13 @@ def register(request):
             # create the user
             user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
 
-            messages.warning(request, "Thank you for registering. Please login to proceed.")
+            # # DONE using Django Signals
+            # # assign a default group to the user
+            # group = Group.objects.get(name="customer")
+            # user.groups.add(group)
+
+
+            messages.success(request, "Thank you for registering. Please login to proceed.")
             return redirect('login')
 
 
@@ -319,10 +340,11 @@ def login(request):
             # user exists, proceed to login
             auth.login(request, user)
             messages.success(request, "Login Successful")
-            if 'next' in request.POST: # include a input hidden field in login form and give value={{request.GET.next}}
-                redirect_url = request.POST['next']
-            else:
-                redirect_url = 'customers'
+            # if 'next' in request.POST: # include a input hidden field in login form and give value={{request.GET.next}}
+            #     redirect_url = request.POST['next']
+            # else:
+            #     redirect_url = 'customers'
+            redirect_url = 'customers'
             return redirect(redirect_url)
 
 
@@ -341,3 +363,9 @@ def logout(request):
         auth.logout(request)
         messages.info(request, "You're now logged out.")
         return redirect('login')
+
+
+@not_for_authenticated_user
+def PasswordResetView(CreateView):
+    if request.method=='GET':
+        pass
